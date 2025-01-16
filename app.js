@@ -81,28 +81,23 @@ app.get("/api/weather", async (req, res) => {
 })
 
 //additional API 1
-app.get("/api/airQuality", async (req, res) => {
-    const {lat, lon} = req.query
+app.get("/api/timezone", async (req, res) => {
+    const { lat, lon } = req.query;
     if (!lat || !lon) {
-        return res.status(404).json({error: 'Latitude parameter required'});
+        return res.status(400).json({ error: "Latitude and Longitude parameters are required" });
     }
 
     try {
-        const ApiKey = process.env.API_KEY;
-        const url = `http://api.openweathermap.org/data/2.5/air_pollution?lat=${lat}&lon=${lon}&appid=${ApiKey}`
+        const apiKey = process.env.TIMEZONE_API_KEY;
+        const url = `http://api.timezonedb.com/v2.1/get-time-zone?key=${apiKey}&format=json&by=position&lat=${lat}&lng=${lon}`;
 
         const response = await axios.get(url);
         const data = response.data;
 
-        const airQualityInfo = {
-            lat: data.coord.lat,
-            lon: data.coord.lon,
-            air_quality_index: data.list[0].main.aqi,
-            components: {
-                co: data.list[0].components.co,
-                no: data.list[0].components.no,
-                o3: data.list[0].components.o3,
-            }
+        const timeZoneInfo = {
+            country: data.countryName,
+            zone: data.zoneName,
+            local_time: data.formatted,
         };
 
         res.send(`
@@ -115,29 +110,66 @@ app.get("/api/airQuality", async (req, res) => {
                 <link rel="stylesheet" href="/style.css">
             </head>
             <body>
-                <h1>Air Quality Information</h1>
-                <form action="/api/airQuality" method="get">
+                <h1>Timezone</h1>
+                <form action="/api/timezone" method="get">
                     <label>
                         <input type="text" id="lat" name="lat" placeholder="Enter Latitude"></input>
                         <input type="text" id="lon" name="lon" placeholder="Enter Longitude"></input>
                     </label>
-                    <button type="submit">Air Quality</button>
+                    <button type="submit">Get Timezone</button>
                 </form>
                 <div id="weather-container">
-                    <p><strong>Coordinates:</strong> Lat: ${airQualityInfo.lat}, Lon: ${airQualityInfo.lon}</p>
-                    <p><strong>Carbon monooxide:</strong> ${airQualityInfo.components.co}</p>
-                    <p><strong>Air Quality Index:</strong> ${airQualityInfo.air_quality_index}</p>
-                    <p><strong>Ozone:</strong> ${airQualityInfo.components.o3}</p>
-                    <p><strong>NO:</strong> ${airQualityInfo.components.no}</p>
+                    <p><strong>Country:</strong>${timeZoneInfo.country}</p>
+                    <p><strong>Zone:</strong> ${timeZoneInfo.zone}</p>
+                    <p><strong>Local time:</strong> ${timeZoneInfo.local_time}</p>
                 </div>
             </body>
             </html>
         `);
     } catch (error) {
-        console.error(error);
-        res.status(500).json({error: 'Error fetching airQuality'});
+        console.error("Error fetching timezone data:", error.response?.data || error.message);
+        res.status(500).json({ error: "Error fetching timezone data" });
     }
-})
+});
+
+//additional API 2
+app.get("/api/motivation", async (req, res) => {
+    try {
+        const url = "https://zenquotes.io/api/random";
+
+        const response = await axios.get(url);
+        const data = response.data[0];
+
+        const motivationalQuote = {
+            quote: data.q,
+            author: data.a,
+        };
+
+        res.send(`
+            <!doctype html>
+            <html lang="en">
+            <head>
+                <meta charset="UTF-8">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <title>Weather Result</title>
+                <link rel="stylesheet" href="/style.css">
+            </head>
+            <body>
+                <form action="/api/motivation" method="get">
+                    <button type="submit">Get Motivation</button>
+                </form>
+                <div id="weather-container">
+                    <p><strong>Quote:</strong>${motivationalQuote.quote}</p>
+                    <p><strong>Author:</strong> ${motivationalQuote.author}</p>
+                </div>
+            </body>
+            </html>
+        `);
+    } catch (error) {
+        console.error("Error fetching motivational data:", error.message);
+        res.status(500).json({ error: "Error fetching motivational data" });
+    }
+});
 
 // Start server
 app.listen(PORT, () => {
