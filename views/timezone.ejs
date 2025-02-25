@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Timezone Information</title>
+    <link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+<h1>Timezone Information</h1>
+<form action="/api/timezone" method="get">
+    <input type="text" name="lat" placeholder="Enter Latitude" required />
+    <input type="text" name="lon" placeholder="Enter Longitude" required />
+    <button type="submit">Get Timezone</button>
+</form>
+<div>
+    <p><strong>Country:</strong> <%= timeZoneInfo.country %></p>
+    <p><strong>Zone:</strong> <%= timeZoneInfo.zone %></p>
+    <p><strong>Local Time:</strong> <%= timeZoneInfo.local_time %></p>
+</div>
+</body>
+</html>

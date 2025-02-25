@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Map for <%= city %></title>
+    <link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+<h1>Map for <%= city %></h1>
+<iframe
+        width="600"
+        height="450"
+        src="<%= embedUrl %>"
+        style="border: 1px solid black;"
+></iframe>
+<p>
+    <a
+            href="https://www.openstreetmap.org/?mlat=<%= lat %>&mlon=<%= lon %>#map=12/<%= lat %>/<%= lon %>"
+            target="_blank"
+    >View larger map</a
+    >
+</p>
+</body>
+</html>

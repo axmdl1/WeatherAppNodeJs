@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Motivational Quote</title>
+    <link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+<h1>Get Your Motivation</h1>
+<form action="/api/motivation" method="get">
+    <button type="submit">Get Motivation</button>
+</form>
+<div>
+    <p><strong>Quote:</strong> <%= motivationalQuote.quote %></p>
+    <p><strong>Author:</strong> <%= motivationalQuote.author %></p>
+</div>
+</body>
+</html>

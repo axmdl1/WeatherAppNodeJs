@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Weather</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<h1>Welcome to the Weather App</h1>
+
+<form action="/api/weather" method="get">
+    <label>
+        <input type="text" id="city" name="city" placeholder="Enter City" required>
+    </label>
+    <button type="submit">Get Weather</button>
+</form>
+<br>
+
+<form action="/api/timezone" method="get">
+    <label>
+        <input type="text" id="lat" name="lat" placeholder="Enter Latitude" required>
+        <input type="text" id="lon" name="lon" placeholder="Enter Longitude" required>
+    </label>
+    <button type="submit">Get Timezone</button>
+</form>
+<br>
+
+<form action="/api/motivation" method="get">
+    <button type="submit">Get Motivation</button>
+</form>
+</body>
+</html>

@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Weather Result</title>
+    <link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+<h1>Weather Information</h1>
+<form action="/api/weather" method="get">
+    <input type="text" name="city" placeholder="Enter City" required />
+    <button type="submit">Get Weather</button>
+</form>
+<div id="weather-container">
+    <h2>
+        Weather in <%= weatherInfo.city %>, <%= weatherInfo.country %>
+        <img src="<%= weatherInfo.flag %>" alt="Flag" />
+    </h2>
+    <p>
+        <strong>Temperature:</strong> <%= weatherInfo.temp %>°C (Feels like:
+        <%= weatherInfo.feels_like %>°C)
+    </p>
+    <p>
+        <strong>Description:</strong> <%= weatherInfo.description %>
+        <img src="<%= weatherInfo.icon %>" alt="Weather Icon" />
+    </p>
+    <p>
+        <strong>Coordinates:</strong> Lat: <%= weatherInfo.lat %>, Lon:
+        <%= weatherInfo.lon %>
+    </p>
+    <p><strong>Humidity:</strong> <%= weatherInfo.humidity %>%</p>
+    <p><strong>Pressure:</strong> <%= weatherInfo.pressure %> hPa</p>
+    <p><strong>Wind Speed:</strong> <%= weatherInfo.wind_speed %> m/s</p>
+    <p><strong>Air Quality Index:</strong> <%= weatherInfo.air_quality %></p>
+    <p>
+        <a href="/api/map?city=<%= encodeURIComponent(weatherInfo.city) %>">
+            View Map
+        </a>
+    </p>
+</div>
+</body>
+</html>
